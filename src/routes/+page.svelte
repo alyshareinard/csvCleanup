@@ -6,10 +6,10 @@
 	"You're awesome",
 	"Working hard or hardly working, amirite?",
 	"Keep up the good work!",
-    "Work work, money made Champagne life, high on display (AC-DC)",
-    "Let's work, be proud, stand tall, touch the clouds (Mick Jagger)",
-"Never done, never done, A girl's work is never done (The Chordettes)",
-"Taking care of business and working overtime, work out (Bachman-Turner Overdrive)"
+    "Work work, money made champagne life, high on display",
+    "Let's work, be proud, stand tall, touch the clouds",
+"Never done, never done, A girl's work is never done",
+"Taking care of business and working overtime, work out"
 ]
 
 	let phrase = phrase_options[Math.floor(Math.random() * phrase_options.length)];
