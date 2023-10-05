@@ -1,5 +1,7 @@
 <script>
+    import './global.css';
 	import PapaParse from 'papaparse'
+    import logo from './logo.png'
 	let phrase_options = ["Looking good today!",
 	"You're awesome",
 	"Working hard or hardly working, amirite?",
@@ -7,7 +9,7 @@
     "Work work, money made Champagne life, high on display (AC-DC)",
     "Let's work, be proud, stand tall, touch the clouds (Mick Jagger)",
 "Never done, never done, A girl's work is never done (The Chordettes)",
-"And I'll be taking care of business (every day), Taking care of business (every way), I've been taking care of business (it's all mine), Taking care of business and working overtime, work out"
+"Taking care of business and working overtime, work out (Bachman-Turner Overdrive)"
 ]
 
 	let phrase = phrase_options[Math.floor(Math.random() * phrase_options.length)];
@@ -106,7 +108,7 @@
 <main>
 	<div class=upperleft>
 		<a href="https://tech-aly.com" target="_blank">
-			<p>Tech-aly</p>
+			<img src={logo} alt="Tech-aly logo" />
 		</a>
 	</div>
 	<h1>Expense Report Cleanup</h1>
@@ -133,8 +135,8 @@
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+
+
 		font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 		color:#FFA55A;
 
@@ -156,16 +158,17 @@
 	}
 
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	@media (max-width: 550px) {
+        h1 {
+            margin-top:80px;
+        }
 	}
 	.upperleft {
 		float: left;
 		position:absolute;
-		border-color:#FFA55A;
-		border-style:solid;
-		border-radius:1px;
+        margin-left:0;
 	}
+    img {
+        height: 60px;
+    }
 </style>
