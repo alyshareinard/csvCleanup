@@ -9,7 +9,10 @@
     "Work work, money made champagne life, high on display",
     "Let's work, be proud, stand tall, touch the clouds",
 "Never done, never done, A girl's work is never done",
-"Taking care of business and working overtime, work out"
+"Taking care of business and working overtime, work out",
+"My baby takes the morning train",
+"giving food to the hungry, hope to the needy",
+"Pretend the dove from above is a dragon and your feet are on fire"
 ]
 
 	let phrase = phrase_options[Math.floor(Math.random() * phrase_options.length)];
