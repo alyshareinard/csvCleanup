@@ -3,7 +3,12 @@
 	let phrase_options = ["Looking good today!",
 	"You're awesome",
 	"Working hard or hardly working, amirite?",
-	"Keep up the good work!",]
+	"Keep up the good work!",
+    "Work work, money made Champagne life, high on display (AC-DC)",
+    "Let's work, be proud, stand tall, touch the clouds (Mick Jagger)",
+"Never done, never done, A girl's work is never done (The Chordettes)",
+"And I'll be taking care of business (every day), Taking care of business (every way), I've been taking care of business (it's all mine), Taking care of business and working overtime, work out"
+]
 
 	let phrase = phrase_options[Math.floor(Math.random() * phrase_options.length)];
 	let message = "";
