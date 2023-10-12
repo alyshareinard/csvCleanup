@@ -2,6 +2,7 @@
     import './global.css';
 	import PapaParse from 'papaparse'
     import logo from './logo.png'
+    let errorMessage;
 	let phrase_options = ["Looking good today!",
 	"You're awesome",
 	"Working hard or hardly working, amirite?",
@@ -26,12 +27,13 @@
 	let total=0;
 	let allowedFileExtensions = ['csv'];
 	function create_output(data) {
-
+        console.log(data)
 		const output=[]
 		ODnum=parseInt(ODnum);
 		let prevNDF=data[0]["NDF #"];
 		let NDF = prevNDF
 		for (let i = 0; i < data.length; i++) {
+            console.log(data[i])
 			NDF = data[i]["NDF #"];
 			if (NDF != prevNDF) {
 				output.push(
@@ -55,8 +57,11 @@
 				total=0;
 
 			} else {
-
-				total+=parseFloat(data[i][" CHF Amount "].replace(',','').replace("'", ""));
+                if ("CHF Amount" in data[i]){
+    				total+=parseFloat(data[i]["CHF Amount"].replace(',','').replace("'", ""));
+                } else {
+                    errorMessage="column 'CHF Amount' not found"
+                }
 
 			}
 			output.push(
@@ -72,7 +77,7 @@
 					"11":data[i]["Donors"]+"/"+data[i]["Project"]+"/"+data[i]["Country"],
 					"4":"",
 					"8":"",
-					"9":data[i][" CHF Amount "],
+					"9":data[i]["CHF Amount"],
 
 				})
 		}
@@ -131,7 +136,9 @@
 		{#if csvOutput}
 		<button on:click={csvOutput}><a href={href} download="output.csv">Download</a></button>
 		{/if}
-
+        {#if errorMessage}
+            <p class="errorMessage">{errorMessage}</p>
+        {/if}
 		</main>
 
 <style>
@@ -173,5 +180,8 @@
 	}
     img {
         height: 60px;
+    }
+    .errorMessage {
+        color: red;
     }
 </style>
