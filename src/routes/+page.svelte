@@ -29,6 +29,27 @@
   let total = 0;
   let allowedFileExtensions = ["csv"];
 
+  let supplierLookup = {
+	"Ahouangnimon Luce": {nameval:"AHOUANGNIMON L.", currency:"CHF", currency2:""},
+	"Asamoah Linda"	: {nameval:"ASAMOAH LINDA", currency:"CHF", currency2:""},
+	"Babona Juvenal"	: {nameval:"BABONA MIHIGO J", currency:"CHF", currency2:""},
+	"Bernath Barbara"	: {nameval:"BERNATH-THEVENO", currency:"CHF", currency2:""},
+	"Buckland Benjamin"	: {nameval:"BUCKLAND BENJAM", currency:"CHF", currency2:""},
+	"Cadelo Valentina"	: {nameval:"CADELO VALENTIN", currency:"CHF", currency2:""},
+	"Filippeschi Veronica"	: {nameval:"FILIPPESCHI VER", currency:"CHF", currency2:""},
+	"Yankittikul Manachaya (Pim)"	: {nameval:"MANACHAYA YANKI", currency:"EUR", currency2:"EUR"},
+	"Vera Lopez Sara"	: {nameval:"SARA LOPEZ", currency:"USD", currency2:"USD"},
+	"Satjipanon Nid"	: {nameval:"SATJIPANON N.", currency:"CHF", currency2:""},
+	"Dias Sylvia"	: {nameval:"SYLVIA DIAS", currency:"CHF", currency2:""},
+	"Trochu Grasso Cecile"	: {nameval:"TROCHU GRASSO C", currency:"CHF", currency2:""},
+	"Zik-Ikeorha Jasmine"	: {nameval:"ZIK-IKEORHA CHI", currency:"CHF", currency2:""},
+}
+
+	
+
+
+
+
   function lastDayOfMonth(date) {
     
     let mydate = date.split("/");
@@ -59,19 +80,41 @@
     data.sort(function (a, b) {
       return getNDF(a) - getNDF(b) || parseDate(a.Date) - parseDate(b.Date);
     });
-    
+	function expenseLine(i){
+		
+		return [
+          lastDayOfMonth(data[i].Date),
+          "OD-" + ODnum,
+          data[i]["Expense Account"],
+          "",
+          "",
+          "",
+          data[i]["DESC 1"],
+          data[i]["DESC 2"],
+          data[i]["Donors"] +
+            "/" +
+            data[i]["Project"] +
+            "/" +
+            data[i]["Country"],
+          "",
+          "",
+          data[i]["CHF Amount"],
+        ]
+	}
 	function summaryLine(i){
+		console.log(data)
+		let supplier = supplierLookup[data[i-1]["Staff"]];
 		return [
           lastDayOfMonth(data[i - 1].Date),
           "OD-" + ODnum,
           "20000",
-          "",
-          "",
+          supplier.nameval,
+          supplier.currency,
           data[i - 1]["NDF #"],
           data[i - 1]["DESC 1"],
           data[i - 1]["NDF #"],
           "",
-          "",
+		  supplier.currency2,
           "",
           (-1 * Math.round(total * 100)) / 100,
         ]
@@ -103,24 +146,7 @@
         errorMessage = "column 'CHF Amount' not found";
       }
       if (data[i].Date) {
-        output.push([
-          lastDayOfMonth(data[i].Date),
-          "OD-" + ODnum,
-          data[i]["Expense Account"],
-          "",
-          "",
-          "",
-          data[i]["DESC 1"],
-          data[i]["DESC 2"],
-          data[i]["Donors"] +
-            "/" +
-            data[i]["Project"] +
-            "/" +
-            data[i]["Country"],
-          "",
-          "",
-          data[i]["CHF Amount"],
-        ]);
+        output.push(expenseLine(i));
       }
     }
 	//last summary line
