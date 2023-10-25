@@ -30,31 +30,38 @@
   let allowedFileExtensions = ["csv"];
 
   function lastDayOfMonth(date) {
-	let mydate = date.split("/");
-	let lastdate = new Date(mydate[2], mydate[1], 0);
-	console.log(lastdate)
-	console.log(lastdate.getDate())
-	return lastdate.getDate()+"/"+mydate[1]+"/"+mydate[2];
+    
+    let mydate = date.split("/");
+    let lastdate = new Date(mydate[2], mydate[1], 0);
+
+    return lastdate.getDate() + "/" + mydate[1] + "/" + mydate[2];
   }
-
+  function getNDF(record) {
+	let num=0
+	
+    if (record["NDF #"]) {
+      num = record["NDF #"].split("-")[1];
+    }
+	
+    return num;
+  }
+  function parseDate(date) {
+    let mydate = date.split("/");
+    return Date.parse(mydate[2] + "/" + mydate[1] + "/" + mydate[0]);
+  }
   function create_output(data) {
+   
+	//filter out empty lines
+	data = data.filter(function (el) {
+	return el.Date != "" ;
+	});
 	//group data by ndf and then sort by date
-//	const result = Object.groupBy(data, ("NDF #") => );
-
-
-    const output = [];
-    ODnum = parseInt(ODnum);
-    let prevNDF = data[0]["NDF #"];
-    let NDF = prevNDF;
-	let prevDate = lastDayOfMonth(data[0].Date);
-	let date = prevDate;
-    for (let i = 0; i < data.length; i++) {
-      console.log(i, total);
-      NDF = data[i]["NDF #"];
-	  date = lastDayOfMonth(data[i].Date);
-
-      if (NDF != prevNDF || date != prevDate) {
-        output.push([
+    data.sort(function (a, b) {
+      return getNDF(a) - getNDF(b) || parseDate(a.Date) - parseDate(b.Date);
+    });
+    
+	function summaryLine(i){
+		return [
           lastDayOfMonth(data[i - 1].Date),
           "OD-" + ODnum,
           "20000",
@@ -67,14 +74,28 @@
           "",
           "",
           (-1 * Math.round(total * 100)) / 100,
-        ]);
+        ]
+	}
+
+    const output = [];
+    ODnum = parseInt(ODnum);
+    let prevNDF = data[0]["NDF #"];
+    let NDF = prevNDF;
+    let prevDate = lastDayOfMonth(data[0].Date);
+    let date = prevDate;
+    for (let i = 0; i < data.length; i++) {
+      NDF = data[i]["NDF #"];
+      date = lastDayOfMonth(data[i].Date);
+
+      if (NDF != prevNDF || date != prevDate || i==data.length-1) {
+        output.push(summaryLine(i));
         ODnum += 1;
         prevNDF = NDF;
-		prevDate = date;
+        prevDate = date;
         total = 0;
       }
 
-      if (i < data.length - 1 && "CHF Amount" in data[i]) {
+      if (i < data.length && "CHF Amount" in data[i]) {
         total += parseFloat(
           data[i]["CHF Amount"].replace(",", "").replace("'", "")
         );
@@ -102,6 +123,8 @@
         ]);
       }
     }
+	//last summary line
+	output.push(summaryLine(data.length));
     csvOutput = PapaParse.unparse({
       data: output,
       fields: ["1", "2", "3", "17", "18", "19", "5", "6", "11", "4", "8", "9"],
