@@ -3,6 +3,8 @@
   import PapaParse from "papaparse";
   import logo from "./logo.png";
   let errorMessage;
+  let desc1;
+  let desc2;
   let phrase_options = [
     "Looking good today!",
     "You're awesome",
@@ -16,6 +18,8 @@
     "giving food to the hungry, hope to the needy",
     "Pretend the dove from above is a dragon and your feet are on fire",
   ];
+  let longDescription = false;
+  let description="";
 
   let phrase =
     phrase_options[Math.floor(Math.random() * phrase_options.length)];
@@ -45,9 +49,6 @@
 	"Zik-Ikeorha Jasmine"	: {nameval:"ZIK-IKEORHA CHI", currency:"CHF", currency2:""},
 }
 
-	
-
-
 
 
   function lastDayOfMonth(date) {
@@ -63,14 +64,14 @@
     if (record["NDF #"]) {
       num = record["NDF #"].split("-")[1];
     }
-	
+	 
     return num;
   }
   function parseDate(date) {
     let mydate = date.split("/");
     return Date.parse(mydate[2] + "/" + mydate[1] + "/" + mydate[0]);
   }
-  function create_output(data) {
+  async function create_output(data) {
    
 	//filter out empty lines
 	data = data.filter(function (el) {
@@ -80,7 +81,26 @@
     data.sort(function (a, b) {
       return getNDF(a) - getNDF(b) || parseDate(a.Date) - parseDate(b.Date);
     });
+
+
+	async function testDescription(i){
+		description = data[i]["DESC 2"]
+		console.log(description.length)
+		if (description.length>30){
+			longDescription=true
+			desc1=description.slice(0,30)
+			desc2=description.slice(30)
+			message = "Description is too long"
+			shortDescrip = description
+			
+		}else{
+			longDescription=false
+		}
+		
+		return description
+	}
 	function expenseLine(i){
+
 		
 		return [
           lastDayOfMonth(data[i].Date),
@@ -92,7 +112,6 @@
           data[i]["DESC 1"],
           data[i]["DESC 2"],
           data[i]["Donors"] +
-            "/" +
             data[i]["Project"] +
             "/" +
             data[i]["Country"],
@@ -102,7 +121,7 @@
         ]
 	}
 	function summaryLine(i){
-		console.log(data)
+
 		let supplier = supplierLookup[data[i-1]["Staff"]];
 		return [
           lastDayOfMonth(data[i - 1].Date),
@@ -146,6 +165,7 @@
         errorMessage = "column 'CHF Amount' not found";
       }
       if (data[i].Date) {
+//		await testDescription(i)
         output.push(expenseLine(i));
       }
     }
@@ -198,6 +218,10 @@
   {#if message}
     <p>{message}</p>
   {/if}
+  {#if longDescription}
+  <input class=description bind:value={description} type="text" />
+  <p>{desc1}<span>{desc2}</span></p>
+  {/if}
   {#if csvOutput}
     <button on:click={csvOutput}
       ><a {href} download="output.csv">Download</a></button
@@ -249,5 +273,11 @@
   }
   .errorMessage {
     color: red;
+  }
+  .description {
+	width: 300px;
+  }
+  p > span {
+	  color:red;
   }
 </style>
