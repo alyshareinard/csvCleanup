@@ -100,7 +100,6 @@
       currency: "CHF",
       currency2: "",
     },
-
   };
 
   function lastDayOfMonth(date) {
@@ -165,38 +164,41 @@
     }
     function summaryLine(i) {
       let supplier = supplierLookup[data[i - 1]["Staff"]];
-      console.log(supplier)
-      if (supplier = '' || supplier==undefined) {
+      console.log(supplier);
+      if ((supplier == "" || supplier == undefined)) {
         return [
-        lastDayOfMonth(data[i - 1].Date),
-        "OD-" + ODnum,
-        "20000",
-        'UNKNOWN NAME',
-        'UNKNOWN CURRENCY1',
-        data[i - 1]["NDF #"],
-        data[i - 1]["DESC 1"],
-        data[i - 1]["NDF #"],
-        "",
-        'UNKNOWN CURRENCY1',
-        "",
-        (-1 * Math.round(total * 100)) / 100,
-      ];
-        
+          lastDayOfMonth(data[i - 1].Date),
+          "OD-" + ODnum,
+          "20000",
+          "UNKNOWN NAME",
+          "UNKNOWN CURRENCY1",
+          data[i - 1]["NDF #"],
+          data[i - 1]["DESC 1"],
+          data[i - 1]["NDF #"],
+          "",
+          "UNKNOWN CURRENCY1",
+          "",
+          (-1 * Math.round(total * 100)) / 100,
+        ];
+      } else {
+        console.log("supplier: ", supplier)
+        console.log("supplier...", supplier.nameval)
+        console.log("supplier...nameval ", supplier['nameval'])
+        return [
+          lastDayOfMonth(data[i - 1].Date),
+          "OD-" + ODnum,
+          "20000",
+          supplier.nameval,
+          supplier.currency,
+          data[i - 1]["NDF #"],
+          data[i - 1]["DESC 1"],
+          data[i - 1]["NDF #"],
+          "",
+          supplier.currency2,
+          "",
+          (-1 * Math.round(total * 100)) / 100,
+        ];
       }
-      return [
-        lastDayOfMonth(data[i - 1].Date),
-        "OD-" + ODnum,
-        "20000",
-        supplier.nameval,
-        supplier.currency,
-        data[i - 1]["NDF #"],
-        data[i - 1]["DESC 1"],
-        data[i - 1]["NDF #"],
-        "",
-        supplier.currency2,
-        "",
-        (-1 * Math.round(total * 100)) / 100,
-      ];
     }
 
     const output = [];
@@ -210,7 +212,10 @@
       date = lastDayOfMonth(data[i].Date);
 
       if (NDF != prevNDF || date != prevDate || i == data.length - 1) {
+        //summary line
+
         output.push(summaryLine(i));
+//        console.log(output);
         ODnum += 1;
         prevNDF = NDF;
         prevDate = date;
@@ -221,7 +226,7 @@
         total += parseFloat(
           data[i]["CHF Amount"].replace(",", "").replace("'", "")
         );
-      } else if (!"CHF Amount" in data[i]) {
+      } else if ((!"CHF Amount") in data[i]) {
         errorMessage = "column 'CHF Amount' not found";
       }
       if (data[i].Date) {
@@ -297,8 +302,18 @@
     text-align: center;
     padding: 1em;
 
-    font-family: "Rubik", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    font-family:
+      "Rubik",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Fira Sans",
+      "Droid Sans",
+      "Helvetica Neue",
       sans-serif;
     color: #ffa55a;
   }
