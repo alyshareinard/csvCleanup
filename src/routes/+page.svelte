@@ -19,7 +19,7 @@
     "Pretend the dove from above is a dragon and your feet are on fire",
   ];
   let longDescription = false;
-  let description="";
+  let description = "";
 
   let phrase =
     phrase_options[Math.floor(Math.random() * phrase_options.length)];
@@ -34,37 +34,88 @@
   let allowedFileExtensions = ["csv"];
 
   let supplierLookup = {
-	"Ahouangnimon Luce": {nameval:"AHOUANGNIMON L.", currency:"CHF", currency2:""},
-	"Asamoah Linda"	: {nameval:"ASAMOAH LINDA", currency:"CHF", currency2:""},
-	"Babona Juvenal"	: {nameval:"BABONA MIHIGO J", currency:"CHF", currency2:""},
-	"Bernath Barbara"	: {nameval:"BERNATH-THEVENO", currency:"CHF", currency2:""},
-	"Buckland Benjamin"	: {nameval:"BUCKLAND BENJAM", currency:"CHF", currency2:""},
-	"Cadelo Valentina"	: {nameval:"CADELO VALENTIN", currency:"CHF", currency2:""},
-	"Filippeschi Veronica"	: {nameval:"FILIPPESCHI VER", currency:"CHF", currency2:""},
-	"Yankittikul Manachaya (Pim)"	: {nameval:"MANACHAYA YANKI", currency:"EUR", currency2:"EUR"},
-	"Vera Lopez Sara"	: {nameval:"SARA LOPEZ", currency:"USD", currency2:"USD"},
-	"Satjipanon Nid"	: {nameval:"SATJIPANON N.", currency:"CHF", currency2:""},
-	"Dias Sylvia"	: {nameval:"SYLVIA DIAS", currency:"CHF", currency2:""},
-	"Trochu Grasso Cecile"	: {nameval:"TROCHU GRASSO C", currency:"CHF", currency2:""},
-	"Zik-Ikeorha Jasmine"	: {nameval:"ZIK-IKEORHA CHI", currency:"CHF", currency2:""},
-}
+    "Ahouangnimon Luce": {
+      nameval: "AHOUANGNIMON L.",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Asamoah Linda": {
+      nameval: "ASAMOAH LINDA",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Babona Juvenal": {
+      nameval: "BABONA MIHIGO J",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Bernath Barbara": {
+      nameval: "BERNATH-THEVENO",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Buckland Benjamin": {
+      nameval: "BUCKLAND BENJAM",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Cadelo Valentina": {
+      nameval: "CADELO VALENTIN",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Filippeschi Veronica": {
+      nameval: "FILIPPESCHI VER",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Yankittikul Manachaya (Pim)": {
+      nameval: "MANACHAYA YANKI",
+      currency: "EUR",
+      currency2: "EUR",
+    },
+    "Vera Lopez Sara": {
+      nameval: "SARA LOPEZ",
+      currency: "USD",
+      currency2: "USD",
+    },
+    "Satjipanon Nid": {
+      nameval: "SATJIPANON N.",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Dias Sylvia": { nameval: "SYLVIA DIAS", currency: "CHF", currency2: "" },
+    "Trochu Grasso Cecile": {
+      nameval: "TROCHU GRASSO C",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Zik-Ikeorha Jasmine": {
+      nameval: "ZIK-IKEORHA CHI",
+      currency: "CHF",
+      currency2: "",
+    },
+    "Congco Emilio": {
+      nameval: "CONGCO EMILIO",
+      currency: "CHF",
+      currency2: "",
+    },
 
-
+  };
 
   function lastDayOfMonth(date) {
-    
     let mydate = date.split("/");
     let lastdate = new Date(mydate[2], mydate[1], 0);
 
     return lastdate.getDate() + "/" + mydate[1] + "/" + mydate[2];
   }
   function getNDF(record) {
-	let num=0
-	
+    let num = 0;
+
     if (record["NDF #"]) {
       num = record["NDF #"].split("-")[1];
     }
-	 
+
     return num;
   }
   function parseDate(date) {
@@ -72,72 +123,81 @@
     return Date.parse(mydate[2] + "/" + mydate[1] + "/" + mydate[0]);
   }
   async function create_output(data) {
-   
-	//filter out empty lines
-	data = data.filter(function (el) {
-	return el.Date != "" ;
-	});
-	//group data by ndf and then sort by date
+    //filter out empty lines
+    data = data.filter(function (el) {
+      return el.Date != "";
+    });
+    //group data by ndf and then sort by date
     data.sort(function (a, b) {
       return getNDF(a) - getNDF(b) || parseDate(a.Date) - parseDate(b.Date);
     });
 
+    async function testDescription(i) {
+      description = data[i]["DESC 2"];
+      console.log(description.length);
+      if (description.length > 30) {
+        longDescription = true;
+        desc1 = description.slice(0, 30);
+        desc2 = description.slice(30);
+        message = "Description is too long";
+        shortDescrip = description;
+      } else {
+        longDescription = false;
+      }
 
-	async function testDescription(i){
-		description = data[i]["DESC 2"]
-		console.log(description.length)
-		if (description.length>30){
-			longDescription=true
-			desc1=description.slice(0,30)
-			desc2=description.slice(30)
-			message = "Description is too long"
-			shortDescrip = description
-			
-		}else{
-			longDescription=false
-		}
-		
-		return description
-	}
-	function expenseLine(i){
-
-		
-		return [
-          lastDayOfMonth(data[i].Date),
-          "OD-" + ODnum,
-          data[i]["Expense Account"],
-          "",
-          "",
-          "",
-          data[i]["DESC 1"],
-          data[i]["DESC 2"],
-          data[i]["Donors"] +
-            data[i]["Project"] +
-            "/" +
-            data[i]["Country"],
-          "",
-          "",
-          data[i]["CHF Amount"],
-        ]
-	}
-	function summaryLine(i){
-
-		let supplier = supplierLookup[data[i-1]["Staff"]];
-		return [
-          lastDayOfMonth(data[i - 1].Date),
-          "OD-" + ODnum,
-          "20000",
-          supplier.nameval,
-          supplier.currency,
-          data[i - 1]["NDF #"],
-          data[i - 1]["DESC 1"],
-          data[i - 1]["NDF #"],
-          "",
-		  supplier.currency2,
-          "",
-          (-1 * Math.round(total * 100)) / 100,
-        ]
-	}
+      return description;
+    }
+    function expenseLine(i) {
+      return [
+        lastDayOfMonth(data[i].Date),
+        "OD-" + ODnum,
+        data[i]["Expense Account"],
+        "",
+        "",
+        "",
+        data[i]["DESC 1"],
+        data[i]["DESC 2"],
+        data[i]["Donors"] + data[i]["Project"] + "/" + data[i]["Country"],
+        "",
+        "",
+        data[i]["CHF Amount"],
+      ];
+    }
+    function summaryLine(i) {
+      let supplier = supplierLookup[data[i - 1]["Staff"]];
+      console.log(supplier)
+      if (supplier = '' || supplier==undefined) {
+        return [
+        lastDayOfMonth(data[i - 1].Date),
+        "OD-" + ODnum,
+        "20000",
+        'UNKNOWN NAME',
+        'UNKNOWN CURRENCY1',
+        data[i - 1]["NDF #"],
+        data[i - 1]["DESC 1"],
+        data[i - 1]["NDF #"],
+        "",
+        'UNKNOWN CURRENCY1',
+        "",
+        (-1 * Math.round(total * 100)) / 100,
+      ];
+        
+      }
+      return [
+        lastDayOfMonth(data[i - 1].Date),
+        "OD-" + ODnum,
+        "20000",
+        supplier.nameval,
+        supplier.currency,
+        data[i - 1]["NDF #"],
+        data[i - 1]["DESC 1"],
+        data[i - 1]["NDF #"],
+        "",
+        supplier.currency2,
+        "",
+        (-1 * Math.round(total * 100)) / 100,
+      ];
+    }
 
     const output = [];
     ODnum = parseInt(ODnum);
@@ -149,7 +209,7 @@
       NDF = data[i]["NDF #"];
       date = lastDayOfMonth(data[i].Date);
 
-      if (NDF != prevNDF || date != prevDate || i==data.length-1) {
+      if (NDF != prevNDF || date != prevDate || i == data.length - 1) {
         output.push(summaryLine(i));
         ODnum += 1;
         prevNDF = NDF;
@@ -165,12 +225,12 @@
         errorMessage = "column 'CHF Amount' not found";
       }
       if (data[i].Date) {
-//		await testDescription(i)
+        //		await testDescription(i)
         output.push(expenseLine(i));
       }
     }
-	//last summary line
-	output.push(summaryLine(data.length));
+    //last summary line
+    output.push(summaryLine(data.length));
     csvOutput = PapaParse.unparse({
       data: output,
       fields: ["1", "2", "3", "17", "18", "19", "5", "6", "11", "4", "8", "9"],
@@ -219,8 +279,8 @@
     <p>{message}</p>
   {/if}
   {#if longDescription}
-  <input class=description bind:value={description} type="text" />
-  <p>{desc1}<span>{desc2}</span></p>
+    <input class="description" bind:value={description} type="text" />
+    <p>{desc1}<span>{desc2}</span></p>
   {/if}
   {#if csvOutput}
     <button on:click={csvOutput}
@@ -275,9 +335,9 @@
     color: red;
   }
   .description {
-	width: 300px;
+    width: 300px;
   }
   p > span {
-	  color:red;
+    color: red;
   }
 </style>
