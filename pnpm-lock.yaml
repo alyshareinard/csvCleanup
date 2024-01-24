@@ -8,6 +8,9 @@ dependencies:
   papaparse:
     specifier: ^5.4.1
     version: 5.4.1
+  xlsx:
+    specifier: https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz
+    version: '@cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz'
 
 devDependencies:
   '@sveltejs/adapter-auto':
@@ -680,3 +683,11 @@ packages:
     dependencies:
       vite: 4.4.10
     dev: true
+
+  '@cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz':
+    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz}
+    name: xlsx
+    version: 0.20.1
+    engines: {node: '>=0.8'}
+    hasBin: true
+    dev: false

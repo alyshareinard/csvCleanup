@@ -15,6 +15,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"papaparse": "^5.4.1"
+		"papaparse": "^5.4.1",
+		"xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
 	}
 }
