@@ -1,341 +1,262 @@
-<script>
+<script lang="ts">
   import "../global.css";
-  import PapaParse from "papaparse";
+  import Papa from "papaparse";
+  import { createTimesheetOutput1, createTimesheetOutput2 } from "./parseTimeSheet";
+  import { checkColumns, checkTimesheetFile } from "./checkUploadFile";
   import logo from "../logo.png";
   import { read, utils, writeFileXLSX } from "xlsx";
+  
+  let parsedData = []; // Define a variable to store the parsed data
 
-  let errorMessage;
-  let desc1;
-  let desc2;
+  let expensehref = "";
+  let timesheethref = "";
+  let timesheetMidhref = "";
 
-  let longDescription = false;
-  let description = "";
+  let expenseMessage = "";
+  let timesheetMessage = "";
+  let timesheetMidName="InvalidOutput"
 
-  let message = "";
-  let REBnum = "";
-  let href = "";
+  let expenseReady = false;
+  let expenseFile: HTMLInputElement;
+  let expenseLookupFile: HTMLInputElement;
 
-  let myfile;
+  let timesheetReady = false;
+  let timesheetMidReady = false;
+  let timesheetFile: HTMLInputElement;
+  let timesheetLookupFile: HTMLInputElement;
 
-  let csvOutput;
-  let total = 0;
-  let allowedFileExtensions = ["csv", "xlsx"];
+  let expenseErrorMessage = "";
+  let timesheetErrorMessage = "";
 
-  let employeeLookup = {
-    "Luce Ahouangnimon": {
-      nameval: "AHOUANGNIMON L.",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Linda Asamoah": {
-      nameval: "ASAMOAH LINDA",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Juvenal Babona": {
-      nameval: "BABONA MIHIGO J",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-    },
-    "Barbara Bernath": {
-      nameval: "BERNATH-THEVENO",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Benjamin Buckland": {
-      nameval: "BUCKLAND BENJAM",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Margaret Bünzli": {
-      nameval: "BUNZLI MARGARET",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Valentina Cadelo": {
-      nameval: "CADELO VALENTIN",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Emilio Congco": {
-      nameval: "CONGCO EMILIO",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Veronica Filippeschi": {
-      nameval: "FILIPPESCHI VER",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-    "Manachaya Yankittikul": {
-      nameval: "MANACHAYA YANKI",
-      currency: "EUR",
-      currency2: "EUR",
-      code: "50000",
-    },
-    "Sara Vera Lopez": {
-      nameval: "SARA LOPEZ",
-      currency: "USD",
-      currency2: "USD",
-      code: "50000",
-    },
-    "Nid Satjipanon": {
-      nameval: "SATJIPANON N.",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-    },
-    "Sylvia Dias": {
-      nameval: "SYLVIA DIAS",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-    },
-    "Cécile Trochu Grasso": {
-      nameval: "TROCHU GRASSO C",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-    },
-    "Jasmine Zik-Ikeorha": {
-      nameval: "ZIK-IKEORHA CHI",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-    },
-  };
+  $: timesheet = false;
+  $: expense = false;
 
-  // usage: file_to_wb(file, function(wb) { /* wb is a workbook object */ });
+  let REBnum: string = "";
+  let ODnum: string = "";
+  let selected="";
+
+
+  const requiredTimesheetCols1 = [
+    "Nom complet",
+    "Code Donateur",
+    "Code Projects",
+    "Nom Projects",
+    "Code Country",
+    "Nom Coût horaire",
+    "Temps imputé (Heures)",
+  ];
+
+  const requiredTimesheetCols2 = ["Nom complet", "Code Donateur", "Code Projects", "Nom Projects", "Code Country",	"Analysis code", "Nom Coût horaire", "Temps imputé (Heures)", "Total", "Description"]		
+
+
+  const requiredExpenseCols = [
+    "Date",
+    "NDF #",
+    "Staff",
+    "Expense Account",
+    "DESC 1",
+    "DESC 2",
+    "Donors",
+    "Project",
+    "Country",
+    "Local currency",
+    "Local amount",
+    "CHF Amount",
+  ];
+
+  function pullDateTimesheet1(filename: string) {
+  //  console.log("in parse date timesheet.  filename is ", filename);
+  let date = filename.split("_")[5];
+  //  console.log("date is ", date);
+  let mydate = date.split(".");
+  return mydate[2] + "." + mydate[1] + "." + mydate[0];
+}
+
+  async function create_lookup(lookupFile: HTMLInputElement) {
+    console.log("In create_lookup", lookupFile);
+    Papa.parse(lookupFile, {
+      complete: function (results) {
+        console.log("lookup", results.data);
+      },
+    });
+  }
+
+  async function runPapaParse(
+    file: File,
+    lookupTable: string[],
+    requiredCols: string[],
+    myFunction: any,
+    counter: string
+  ) {
+    console.log("In runPapaParse", file);
+    let errorMessage = "";
+    let csvReady = false;
+    let href = "";
+    let message = "";
+    Papa.parse(file, {
+      header: true,
+
+      complete: async function (results) {
+        parsedData = results.data;
+        const fields = results.meta.fields;
+        const temp = checkColumns(fields, requiredCols);
+        errorMessage = temp.errorMessage;
+        const output = await myFunction(
+          parsedData,
+          lookupTable,
+          file.name,
+          counter
+        );
+        csvReady = output.csvReady;
+        href = output.href;
+        message = output.message;
+        console.log("csvReady in papaparse command", csvReady);
+      },
+      error: function (error) {
+        errorMessage = error.message;
+        console.log(error.message);
+      },
+    });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return {
+      errorMessage,
+      csvReady,
+      href,
+      message,
+    };
+  }
+
+  async function runTimesheetUpload1(
+    timesheetFile: HTMLInputElement,
+  ) {
+    console.log("In runTimesheetUpload1", timesheetFile);
+    if (!timesheetFile || !timesheetFile.files) {
+      timesheetMessage = "Please upload a file";
+      return;
+    }
+    const file = timesheetFile.files[0];
+    console.log("file", file);
+    const response = await checkTimesheetFile(file);
+    timesheetErrorMessage = response.errorMessage;
+    timesheetMidName = pullDateTimesheet1(file.name) + "_timesheetMidpoint.csv"
+
+    const timesheetLookupTable:string[]=[]
+      const fileExtension = response.fileExtension;
+      console.log("fileExtension", fileExtension);
+
+      if (fileExtension.includes("csv")) {
+        const paparesponse = await runPapaParse(
+          file,
+          timesheetLookupTable,
+          requiredTimesheetCols1,
+          createTimesheetOutput1,
+          0
+        );
+        console.log("paparesponse", paparesponse);
+        timesheetErrorMessage = paparesponse.errorMessage;
+        timesheetReady = paparesponse.csvReady;
+        timesheethref = paparesponse.href;
+        timesheetMessage = paparesponse.message;
+      } else {
+        timesheetMessage = "Please upload a CSV file";
+      }
+    }
+
+  async function runTimesheetUpload2(
+    timesheetFile: HTMLInputElement,
+    timesheetLookupFile: HTMLInputElement
+  ) {
+    console.log("In runTimesheetUpload", timesheetFile, REBnum);
+    if (!timesheetFile || !timesheetFile.files) {
+      timesheetMessage = "Please upload a file";
+      return;
+    }
+    const file = timesheetFile.files[0];
+    console.log("file", file);
+    const response = await checkTimesheetFile(file);
+    timesheetErrorMessage = response.errorMessage;
+
+    if (!timesheetLookupFile || !timesheetLookupFile.files) {
+      timesheetMessage = "Please upload a file";
+        return;
+      }
+
+    const timesheetLookupFileInput = timesheetLookupFile.files[0];
+    console.log("timesheetLookupFileInput", timesheetLookupFileInput);
+    const timesheetLookupTable = await create_lookup(timesheetLookupFileInput);
+    console.log("timesheetLookupTable", timesheetLookupTable);
+
+      const fileExtension = response.fileExtension;
+      console.log("fileExtension", fileExtension);
+
+      if (fileExtension.includes("csv")) {
+        const paparesponse = await runPapaParse(
+          file,
+          timesheetLookupTable,
+          requiredTimesheetCols2,
+          createTimesheetOutput2,
+          REBnum
+        );
+        console.log("paparesponse", paparesponse);
+        timesheetErrorMessage = paparesponse.errorMessage;
+        timesheetReady = paparesponse.csvReady;
+        timesheethref = paparesponse.href;
+        timesheetMessage = paparesponse.message;
+      } else {
+        timesheetMessage = "Please upload a CSV file";
+      }
+    }
+  
+
+  async function runExpenseUpload(
+    expenseFile: HTMLInputElement,
+    expenseLookupFile: HTMLInputElement,
+    ODnum: string
+  ) {
+    console.log("In expensesheetUpload", expenseFile, ODnum);
+    if (expenseFile && expenseFile.files) {
+      const file = expenseFile.files[0];
+      console.log("file", file);
+      const response = await checkexpenseFile(file);
+      expenseErrorMessage = response.errorMessage;
+      const fileExtension = response.fileExtension;
+      console.log("fileExtension", fileExtension);
+
+      if (fileExtension.includes("csv")) {
+        const paparesponse = await runPapaParse(
+          file,
+          expenseLookupFile,
+          requiredExpenseCols,
+          createExpenseOutput,
+          REBnum
+        );
+        expenseErrorMessage = paparesponse.errorMessage;
+        if (paparesponse?.csvReady) {
+          expenseReady = paparesponse.csvReady;
+          console.log("expenseReady", expenseReady);
+          expensehref = paparesponse.href;
+          expenseMessage = paparesponse.message;
+        }
+      } else {
+        expenseMessage = "Please upload a CSV file";
+      }
+    } else {
+      expenseMessage = "Please upload a file";
+    }
+  }
+  /*
+  // usage: file_to_wb(file, function(wb) { // wb is a workbook object });
   function file_to_wb(file, callback) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      /* e.target.result is an ArrayBuffer */
+      // e.target.result is an ArrayBuffer
       callback(read(e.target.result));
     };
     reader.readAsArrayBuffer(file);
   }
+  */
 
-  function parseDate(filename) {
-    let date = filename.split("_")[5];
-    console.log("date is ", date);
-    let mydate = date.split(".");
-    return mydate[2] + "." + mydate[1] + "." + mydate[0];
-  }
-  async function create_output(data, filename) {
-    //filter out empty lines
-    console.log("data is ", data);
-    //      data = data.filter(function (el) {
-    //        return el.Date != "";
-    //      });
-    //group data by ndf and then sort by date
-    //      data.sort(function (a, b) {
-    //        return getNDF(a) - getNDF(b) || parseDate(a.Date) - parseDate(b.Date);
-    //      });
-    const mydate = parseDate(filename);
 
-    function expenseLine(i, amount) {
-      let employee = employeeLookup[data[i]["Nom complet"]];
-      console.log(employee);
-      if (employee == "" || employee == undefined) {
-        console.log("employee not found");
-        return [
-          mydate,
-          "REB-" + REBnum,
-          "",
-          "",
-          "",
-          "",
-          data[i]["Nom complet"] +
-            "_" +
-            String(Math.round(Number(data[i]["Temps imputé (Heures)"]))) +
-            "hr",
-          "",
-          data[i]["Code Donateur"] +
-            data[i]["Code Projects"] +
-            "/" +
-            data[i]["Code Country"],
-          "",
-          "",
-          amount,
-        ];
-      } else {
-        
-        return [
-          mydate,
-          "REB-" + REBnum,
-          employee.code,
-          "",
-          "",
-          "",
-          data[i]["Nom complet"] +
-            "_" +
-            String(Math.round(Number(data[i]["Temps imputé (Heures)"]))) +
-            "hr",
-          "",
-          data[i]["Code Donateur"] +
-            data[i]["Code Projects"] +
-            "/" +
-            data[i]["Code Country"],
-          "",
-          "",
-          amount,
-        ];
-      }
-    }
-    function summaryLine(i, amount) {
-      let employee = employeeLookup[data[i]["Nom complet"]];
-      console.log(employee);
-      if (employee == "" || employee == undefined) {
-        console.log("employee not found");
-        return [
-          mydate,
-          "REB-" + REBnum,
-          "",
-          "",
-          "",
-          "",
-          data[i]["Nom complet"] +
-            "_" +
-            String(Math.round(Number(data[i]["Temps imputé (Heures)"]))) +
-            "hr",
-          "",
-          data[i]["Code Donateur"] +
-            data[i]["Code Projects"] +
-            "/" +
-            data[i]["Code Country"],
-          "",
-          "",
-          amount,
-        ];
-      } else {
-        
-        return [
-          mydate,
-          "REB-" + REBnum,
-          employee.code,
-          "",
-          "",
-          "",
-          data[i]["Nom complet"] +
-            "_" +
-            String(Math.round(Number(data[i]["Temps imputé (Heures)"]))) +
-            "hr",
-          "",
-          data[i]["Code Donateur"] +
-            data[i]["Code Projects"] +
-            "/" +
-            data[i]["Code Country"],
-          "",
-          "",
-          amount,
-        ];
-      } /*
-        } else {
-          console.log("supplier: ", supplier)
-          console.log("supplier...", supplier.nameval)
-          console.log("supplier...nameval ", supplier['nameval'])
-          return [
-            mydate,
-            "REB-" + REBnum,
-            "20000",
-            supplier.nameval,
-            supplier.currency,
-            data[i - 1]["NDF #"],
-            data[i - 1]["DESC 1"],
-            data[i - 1]["NDF #"],
-            "",
-            supplier.currency2,
-            "",
-            (-1 * Math.round(total * 100)) / 100,
-          ];
-        }*/
-    }
-
-    const output = [];
-    REBnum = parseInt(REBnum);
-
-    for (let i = 0; i < data.length; i++) {
-      const rawamount =
-        Number(data[i]["Nom Coût horaire"]) *
-        Number(data[i]["Temps imputé (Heures)"]);
-      const amount = Math.round(rawamount * 100) / 100;
-      output.push(expenseLine(i, String(amount)));
-      const negamount = amount * -1;
-      output.push(summaryLine(i, String(negamount)));
-      //        console.log(output);
-      REBnum += 1;
-    }
-
-    csvOutput = PapaParse.unparse({
-      data: output,
-      fields: ["1", "2", "3", "17", "18", "19", "5", "6", "11", "4", "8", "9"],
-    });
-    message = "Your CSV is ready!";
-    href = encodeURI("data:text/csv;charset=utf-8," + csvOutput);
-  }
-  async function uploadFile(myfile) {
-    const file = myfile.files[0];
-    console.log("file is ", file);
-    console.log("file array buffer is ", file.arrayBuffer());
-    const fileExtensionArray = file.type.split("/");
-    console.log("fileExtensionArray is ", fileExtensionArray);
-    const fileExtension = fileExtensionArray[fileExtensionArray.length - 1];
-    console.log("fileExtension is ", fileExtension);
-    if (fileExtension.includes("csv")) {
-      const csvData = PapaParse.parse(
-        file,
-
-        {
-          header: true,
-          complete: (results) => {
-            message = "working...";
-            create_output(results.data, file.name);
-          },
-        }
-      );
-    } else if (
-      fileExtension.includes(
-        "vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      )
-    ) {
-      console.log("importng xlsx");
-      console.log("file is ", file);
-      const workbook = await file.arrayBuffer();
-      // console.log("arraybuff is ", arraybuff)
-      //const workbook = file_to_wb(file, function(wb) { /* wb is a workbook object */ });
-      //        var reader = new FileReader();
-      //        const workbook = reader.readAsArrayBuffer(file)
-      //        const workbook = read(file.arrayBuffer(), { type: "arraybuffer" });
-      console.log("we have a workbook");
-      console.log("workbook is ", workbook);
-      const testing = PapaParse.parse(file);
-      console.log("testing is ", testing);
-      const firstSheetName = workbook.SheetNames[0];
-      console.log("firstSheetName is ", firstSheetName);
-      const worksheet = workbook.Sheets[firstSheetName];
-      const csvData = PapaParse.unparse(worksheet);
-      console.log("csvData looks like this: ", csvData);
-      const results = PapaParse.parse(csvData, {
-        header: true,
-        complete: (results) => {
-          message = "working...";
-          console.log(results.data);
-          create_output(results.data);
-        },
-      });
-    } else {
-      message = "Not an allowed file type";
-    }
-  }
 </script>
 
 <main>
@@ -344,26 +265,147 @@
       <img src={logo} alt="Tech-aly logo" />
     </a>
   </div>
-  <h1>Timesheet Cleanup</h1>
-  <h2>Let's cleanup those Timesheets!</h2>
-  First REB number:
-  <input bind:value={REBnum} />
-  <br />
-  <input bind:this={myfile} on:change={uploadFile(myfile)} type="file" />
-  {#if message}
-    <p>{message}</p>
+  <h1>CSV cleanup</h1>
+
+  <h2>What would you like to do today?</h2>
+  <input
+    type="radio"
+    id="timesheet1"
+    bind:group={selected}
+    name="timesheet1"
+    value="timesheet1"
+  />
+  <label for="timesheet">Process timesheets (step 1)</label>
+
+  <input
+    type="radio"
+    id="timesheet2"
+    bind:group={selected}
+    name="timesheet2"
+    value="timesheet2"
+  />
+  <label for="timesheet">Process timesheets (step 2)</label>
+
+  <input
+    type="radio"
+    id="expense"
+    bind:group={selected}
+    name="expense"
+    value="expense"
+  />
+  <label for="expense">Process expense reports</label>
+
+  {#if selected == "timesheet1"}
+    <div class="box">
+      <h2>Timesheet Cleanup</h2>
+      <div class="myform">
+
+
+        <label for="timesheetfile">Timesheet file</label>
+        <input bind:this={timesheetFile} type="file" />
+
+      </div>
+      <button
+        on:click={() => runTimesheetUpload1(timesheetFile)}
+        type="submit">Submit</button
+      >
+
+      {#if timesheetMessage}
+        <p>{timesheetMessage}</p>
+      {/if}
+
+
+      {#if timesheetReady}
+        <button
+          ><a href={timesheethref} download={timesheetMidName}>Download</a
+          ></button
+        >
+      {/if}
+      {#if timesheetErrorMessage}
+        <p class="errorMessage">{timesheetErrorMessage}</p>
+      {/if}
+    </div>
   {/if}
-  {#if longDescription}
-    <input class="description" bind:value={description} type="text" />
-    <p>{desc1}<span>{desc2}</span></p>
-  {/if}
-  {#if csvOutput}
-    <button on:click={csvOutput}
-      ><a {href} download="output.csv">Download</a></button
+
+
+  {#if selected == "timesheet2"}
+  <div class="box">
+    <h2>Timesheet Cleanup</h2>
+    <div class="myform">
+      <label for="name"> First REB number</label>
+      <input
+        type="text"
+        id="REBnum"
+        bind:value={REBnum}
+        name="REBnum"
+        required
+      />
+
+      <label for="timesheetfile">Timesheet (from step 1) file</label>
+      <input bind:this={timesheetFile} type="file" />
+
+      <label for="employeeCodeFile">Employee code lookup</label>
+      <input bind:this={timesheetLookupFile} type="file" />
+    </div>
+    <button
+      on:click={() => runTimesheetUpload2(timesheetFile, timesheetLookupFile)}
+      type="submit">Submit</button
     >
-  {/if}
-  {#if errorMessage}
-    <p class="errorMessage">{errorMessage}</p>
+
+    {#if timesheetMessage}
+      <p>{timesheetMessage}</p>
+    {/if}
+
+    {#if timesheetReady}
+      <button
+        ><a href={timesheethref} download="timesheetReport.csv">Download</a
+        ></button
+      >
+    {/if}
+    {#if timesheetErrorMessage}
+      <p class="errorMessage">{timesheetErrorMessage}</p>
+    {/if}
+  </div>
+{/if}
+
+  {#if selected == "expense"}
+    <div class="box">
+      <h2>Expense Form Cleanup</h2>
+      <div class="myform">
+        <label for="name"> First OD number</label>
+        <input
+          type="text"
+          id="ODnum"
+          bind:value={ODnum}
+          name="ODnum"
+          required
+        />
+
+        <label for="expensefile">Expense file</label>
+        <input bind:this={expenseFile} type="file" />
+
+        <label for="expenseLookupFile">Employee code lookup</label>
+        <input bind:this={expenseLookupFile} type="file" />
+      </div>
+      <button
+        on:click={() => runExpenseUpload(expenseFile, expenseLookupFile, ODnum)}
+        type="submit">Submit</button
+      >
+
+      {#if expenseMessage}
+        <p>{expenseMessage}</p>
+      {/if}
+
+      {#if expenseReady}
+        <button
+          ><a href={expensehref} download="expenseReport.csv">Download</a
+          ></button
+        >
+      {/if}
+      {#if expenseErrorMessage}
+        <p class="errorMessage">{expenseErrorMessage}</p>
+      {/if}
+    </div>
   {/if}
 </main>
 
@@ -422,7 +464,20 @@
   .description {
     width: 300px;
   }
-  p > span {
-    color: red;
+  .myform {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: fit-content;
+    margin: auto;
+    margin-top: 20px;
+    justify-items: left;
+  }
+  .box {
+    border: 1px solid #ffa55a;
+    padding: 10px;
+    margin: auto;
+    margin-top: 20px;
+    width: fit-content;
   }
 </style>
