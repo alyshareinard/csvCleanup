@@ -1,0 +1,89 @@
+Date,NDF #,Staff,Expense Account,DESC 1,DESC 2,Donors,Project,Country,Local currency,Local amount,CHF Amount
+30/08/2023,NDF-452,Dias Sylvia,41130,Dias Sylvia_NDF452,Travel insurance  trip to Geneva-proportional-Gva stay.,ADM-UNRE01,A0902-00,ALL,BRL,572.9,103.74
+09/10/2023,NDF-458,Cadelo Valentina,41010,Cadelo Valentina_NDF458,Trip to Warsaw - breakfast airport VC,EUR-CONS01,P0101-00,ALL,CHF,7.8,7.8
+09/10/2023,NDF-458,Cadelo Valentina,41010,Cadelo Valentina_NDF458,Trip to Warsaw - lunch VC,EUR-CONS01,P0101-00,ALL,PLN,88,18.47
+09/10/2023,NDF-458,Cadelo Valentina,41010,Cadelo Valentina_NDF458,Trip to Warsaw Dinner VC,EUR-CONS01,P0101-00,ALL,PLN,90,18.89
+09/10/2023,NDF-458,Cadelo Valentina,41000,Cadelo Valentina_NDF458,Trip to Warsaw -Train airport - city centre VC,EUR-CONS01,P0101-00,ALL,PLN,7.8,1.64
+11/10/2023,NDF-458,Cadelo Valentina,41000,Cadelo Valentina_NDF458,Trip to Warsaw - Taxi airport - home VC,EUR-CONS01,P0101-00,ALL,CHF,32.8,32.8
+09/10/2023,NDF-458,Cadelo Valentina,41000,Cadelo Valentina_NDF458,Trip to Warsaw - Taxi city centre - hotel VC,EUR-CONS01,P0101-00,ALL,PLN,50,10.49
+21/10/2023,NDF-456,Satjipanon Nid,41100,Satjipanon Nid_NDF456,CHRP workshop - taxi to hotel NS,EUR-ASIA01,P0102-00,PHL,PHP,393,6.19
+28/10/2023,NDF-456,Satjipanon Nid,44030,Satjipanon Nid_NDF456,SIC workshop - printing costs at the hotel,EUR-ASIA01,P0102-00,PHL,PHP,590,9.34
+28/10/2023,NDF-456,Satjipanon Nid,40030,Satjipanon Nid_NDF456,SIC workshop - Dinner for SUARAM ,EUR-ASIA01,P0102-00,PHL,PHP,1944.64,30.77
+21/10/2023,NDF-456,Satjipanon Nid,41100,Satjipanon Nid_NDF456,CHRP workshop - taxi from home to Bkk airport,EUR-ASIA01,P0102-00,PHL,THB,569,13.93
+25/10/2023,NDF-456,Satjipanon Nid,40030,Satjipanon Nid_NDF456,Group dinner CHRP workshop,EUR-ASIA01,P0102-00,PHL,PHP,5838.57,91.78
+27/10/2023,NDF-456,Satjipanon Nid,41100,Satjipanon Nid_NDF456,SIC workshop - taxi from hotel to restaurant NS,EUR-ASIA01,P0102-00,PHL,PHP,425,6.71
+28/10/2023,NDF-456,Satjipanon Nid,41100,Satjipanon Nid_NDF456,SIC workshop - taxi from hotel to airport NS,EUR-ASIA01,P0102-00,PHL,PHP,828,13.1
+28/10/2023,NDF-456,Satjipanon Nid,40030,Satjipanon Nid_NDF456,Lunch for CrCF and SUARAM,EUR-ASIA01,P0102-00,PHL,PHP,4190,66.3
+28/10/2023,NDF-456,Satjipanon Nid,41100,Satjipanon Nid_NDF456,Toll fee - CHRP workshop ,EUR-ASIA01,P0102-00,PHL,PHP,170,2.69
+28/10/2023,NDF-456,Satjipanon Nid,40050,Satjipanon Nid_NDF456,CRCF and SUARAM coffees - SIC regional workshop,EUR-ASIA01,P0102-00,PHL,PHP,1105,17.48
+28/10/2023,NDF-456,Satjipanon Nid,41100,Satjipanon Nid_NDF456,Toll for highway in Philippines,EUR-ASIA01,P0102-00,PHL,PHP,129,2.04
+20/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,meal at airport-JZ,EUR-ASIA01,P0102-00,PHL,CHF,5.7,5.7
+20/10/2023,NDF-455,Zik-Ikeorha Jasmine,41000,Zik-Ikeorha Jasmine_NDF455,cab home to the airport in Geneva-JZ,EUR-ASIA01,P0102-00,PHL,CHF,18.53,18.53
+20/10/2023,NDF-455,Zik-Ikeorha Jasmine,40020,Zik-Ikeorha Jasmine_NDF455,chocolates -training ,EUR-ASIA01,P0102-00,PHL,CHF,18,18
+21/10/2023,NDF-455,Zik-Ikeorha Jasmine,41030,Zik-Ikeorha Jasmine_NDF455,Sim card and internet-JZ,EUR-ASIA01,P0102-00,PHL,PHP,1500,23.62
+21/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,coffee-BSB MY  JZ + meals JZ,EUR-ASIA01,P0102-00,PHL,PHP,1836,28.92
+25/10/2023,NDF-455,Zik-Ikeorha Jasmine,41000,Zik-Ikeorha Jasmine_NDF455,transport to place to eat - JZ,EUR-ASIA01,P0102-00,PHL,PHP,958,15.06
+22/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,meals (400  142  510  551),EUR-ASIA01,P0102-00,PHL,PHP,1609,25.34
+23/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,Dinner for JZ  BSB  NS  MY,EUR-ASIA01,P0102-00,PHL,PHP,3032.57,47.71
+23/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,coffee for colleagues and I  meal for me,EUR-ASIA01,P0102-00,PHL,PHP,786,12.37
+26/10/2023,NDF-455,Zik-Ikeorha Jasmine,41000,Zik-Ikeorha Jasmine_NDF455,transport to buy food (182 + 159),EUR-ASIA01,P0102-00,PHL,PHP,341,5.38
+26/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,meals for me,EUR-ASIA01,P0102-00,PHL,PHP,513,8.09
+26/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,meal at airport,EUR-ASIA01,P0102-00,PHL,QAR,30,7.4
+26/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,meals,EUR-ASIA01,P0102-00,PHL,PHP,402,6.34
+26/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,meals at airport,EUR-ASIA01,P0102-00,PHL,PHP,695,10.96
+26/10/2023,NDF-455,Zik-Ikeorha Jasmine,41010,Zik-Ikeorha Jasmine_NDF455,lunch,EUR-ASIA01,P0102-00,PHL,PHP,629,9.92
+27/10/2023,NDF-455,Zik-Ikeorha Jasmine,41000,Zik-Ikeorha Jasmine_NDF455,cab from airport to home Geneva,EUR-ASIA01,P0102-00,PHL,CHF,17.38,17.38
+24/10/2022,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Dinner for Pim  Nid  Ben and Jasmine,EUR-ASIA01,P0102-00,PHL,PHP,6731.79,114.39
+17/10/2023,NDF-453,Yankittikul Manachaya (Pim),40020,Yankittikul Manachaya (Pim)_NDF453,Stationary for regional workshop and TOT,EUR-ASIA01,P0101-00,THA,THB,738.6,18.25
+17/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from NHRCT back home,EUR-ASIA01,P0101-00,THA,THB,310,7.66
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Breakfast at the airport,EUR-ASIA01,P0101-00,THA,THB,521,12.9
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Lunch during the mission,EUR-ASIA01,P0101-00,PHL,PHP,159,2.52
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee during the mission,EUR-ASIA01,P0101-00,PHL,PHP,145,2.3
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Dinner for Philippines mission,EUR-ASIA01,P0101-00,PHL,PHP,1808.22,28.65
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from home to Airport,EUR-ASIA01,P0102-00,PHL,THB,411,10.17
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from Manila airport to hotel,EUR-ASIA01,P0102-00,PHL,PHP,949,15.04
+19/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from  restaurant to hotel,EUR-ASIA01,P0102-00,PHL,PHP,810,12.81
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from  hotel to restaurant,EUR-ASIA01,P0102-00,PHL,PHP,505,8
+17/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from home to NHRCT for OPCAT and Mendez Principles research,EUR-ASIA01,P0101-00,THA,THB,227,5.61
+18/10/2023,NDF-453,Yankittikul Manachaya (Pim),41120,Yankittikul Manachaya (Pim)_NDF453,Hotel for one night as early arrival,EUR-ASIA01,P0102-00,PHL,PHP,3500,55.46
+22/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from airport to hotel,EUR-ASIA01,P0101-00,PHL,PHP,640,10.08
+22/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Ben and Pim,EUR-ASIA01,P0102-00,PHL,PHP,479,7.54
+22/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Lunch for Ben and Pim,EUR-ASIA01,P0102-00,PHL,PHP,846,13.32
+22/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from hotel to restaurant for Pim  Nid  Jasmine and Ben,EUR-ASIA01,P0102-00,PHL,PHP,345,5.43
+22/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from restaurant back to hotel,EUR-ASIA01,P0102-00,PHL,PHP,314,4.95
+22/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim and Ben,EUR-ASIA01,P0102-00,PHL,PHP,350,5.51
+23/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Lunch during mission,EUR-ASIA01,P0102-00,PHL,PHP,745,11.72
+23/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee during mission,EUR-ASIA01,P0102-00,PHL,PHP,269,4.23
+23/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from hotel to restuarant for dinner for Pim  Nid  Ben and Jasmine,EUR-ASIA01,P0102-00,PHL,PHP,255,4.01
+23/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from restaurant back to hotel,EUR-ASIA01,P0102-00,PHL,PHP,320,5.03
+24/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim and Ben,EUR-ASIA01,P0102-00,PHL,PHP,569,8.93
+24/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim  Nid  Ben and Jasmine,EUR-ASIA01,P0102-00,PHL,PHP,869,13.64
+24/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Lunch during mission,EUR-ASIA01,P0102-00,PHL,PHP,414,6.5
+24/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation for pim and Ben to the restaurant,EUR-ASIA01,P0102-00,PHL,PHP,156,2.45
+24/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from restuarant back to hotel,EUR-ASIA01,P0102-00,PHL,PHP,423,6.64
+25/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from British embassy to hotel,EUR-ASIA01,P0102-00,PHL,PHP,287,4.5
+25/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim and Ben,EUR-ASIA01,P0102-00,PHL,PHP,739,11.6
+26/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim and Ben,EUR-ASIA01,P0102-00,PHL,PHP,479,7.55
+26/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee,EUR-ASIA01,P0102-00,PHL,PHP,404,6.37
+27/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee,EUR-ASIA01,P0102-00,PHL,PHP,269,4.24
+27/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim and Nid,EUR-ASIA01,P0102-00,PHL,PHP,619,9.76
+27/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from hotel to restuarant for team dinner,EUR-ASIA01,P0102-00,PHL,PHP,397,6.26
+27/10/2023,NDF-453,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF453,Transportation from restuarant back to hotel,EUR-ASIA01,P0102-00,PHL,PHP,429,6.76
+28/10/2023,NDF-453,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF453,Coffee for Pim and Nid,EUR-ASIA01,P0102-00,PHL,PHP,469,7.4
+28/10/2023,NDF-453,Yankittikul Manachaya (Pim),41130,Yankittikul Manachaya (Pim)_NDF453,Roaming bill for Geneva mission,EUR-ASIA01,P0101-00,THA,THB,1847.89,45.81
+28/10/2023,NDF-453,Yankittikul Manachaya (Pim),41130,Yankittikul Manachaya (Pim)_NDF453,Roaming bill for Geneva and Philippines,EUR-ASIA01,P0101-00,THA,THB,3147.94,78.04
+02/11/2023,NDF-459,Congco Emilio,44030,Congco Emilio_NDF459,Printing flyer GANHRI conference,CGE-JUST01,P0303-00,ALL,CHF,280.5,280.5
+22/10/2023,NDF-457,Buckland Benjamin,41010,Buckland Benjamin_NDF457,Staff dinner,EUR-ASIA01,P0102-00,PHL,PHP,3436,54.11
+25/10/2023,NDF-457,Buckland Benjamin,41010,Buckland Benjamin_NDF457,Staff meals,EUR-ASIA01,P0102-00,PHL,PHP,3179,49.97
+26/10/2023,NDF-457,Buckland Benjamin,41000,Buckland Benjamin_NDF457,Taxis,EUR-ASIA01,P0102-00,PHL,PHP,1802,28.41
+04/11/2023,NDF-460,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF460,faculty of Law- ICRC moot ct,EUR-ASIA01,P0101-00,THA,THB,80,2.02
+04/11/2023,NDF-460,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF460,Tr for lunch with ICRC team,EUR-ASIA01,P0101-00,THA,THB,168,4.24
+04/11/2023,NDF-460,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF460,From Faculty of Law - home,EUR-ASIA01,P0101-00,THA,THB,208,5.25
+04/11/2023,NDF-460,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF460, fr restaurant to faculty of law,EUR-ASIA01,P0101-00,THA,THB,94,2.37
+04/11/2023,NDF-460,Yankittikul Manachaya (Pim),40020,Yankittikul Manachaya (Pim)_NDF460,Shipping SIC speech comp.,EUR-ASIA01,P0101-00,THA,THB,58,1.47
+28/10/2023,NDF-454,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF454, from hotel to airport,EUR-ASIA01,P0102-00,PHL,PHP,731,11.54
+28/10/2023,NDF-454,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF454,Coffee for Pim and Nid,EUR-ASIA01,P0102-00,PHL,PHP,260,4.1
+28/10/2023,NDF-454,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF454,Dinner for Pim and Nid,EUR-ASIA01,P0102-00,PHL,PHP,690,10.92
+28/10/2023,NDF-454,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF454,airport to home,EUR-ASIA01,P0102-00,PHL,THB,330,8.24
+28/10/2023,NDF-454,Yankittikul Manachaya (Pim),41100,Yankittikul Manachaya (Pim)_NDF454,Transportation from hotel to airport,EUR-ASIA01,P0102-00,PHL,PHP,731,11.57
+28/10/2023,NDF-454,Yankittikul Manachaya (Pim),41110,Yankittikul Manachaya (Pim)_NDF454,Dinner at the airport,EUR-ASIA01,P0102-00,PHL,PHP,190,3.01

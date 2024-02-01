@@ -21,24 +21,15 @@ function makeREBstring(REBint: number) {
 
 function expenseLine(
   timesheetLine: any,
+  employeeInfo:any,
   mydate: string,
   REB: number
 ) {
-  let employee = employeeLookup(timesheetLine["Nom complet"]);
-  //    console.log(employee);
-  if (employee == undefined) {
-    employee = {
-      nameval: "EMPLOYEE" + timesheetLine["Nom complet"] + " NOT FOUND",
-      currency: "",
-      currency2: "",
-      code: "",
-      paycode: "",
-    };
-  }
+
   return [
     mydate,
     makeREBstring(REB),
-    employee.code,
+    employeeInfo.code,
     "",
     "",
     "",
@@ -51,28 +42,17 @@ function expenseLine(
   ];
 }
 
-function summaryLine(timesheetLine: any, mydate: string, REB: number) {
-  let employee = employeeLookup(timesheetLine["Nom complet"]);
-  //    console.log(employee);
-  if (employee == undefined) {
-    employee = {
-      nameval: "EMPLOYEE" + timesheetLine["Nom complet"] + " NOT FOUND",
-      currency: "",
-      currency2: "",
-      code: "",
-      paycode: "",
-    };
-  }
+function summaryLine(timesheetLine: any, employeeInfo:any, mydate: string, REB: number) {
   return [
     mydate,
     makeREBstring(REB),
-    employee.code,
+    employeeInfo.code,
     "",
     "",
     "",
     timesheetLine["Description"],
     "",
-    employee.paycode,
+    employeeInfo.paycode,
     "",
     "",
     timesheetLine["Total"]
@@ -106,8 +86,8 @@ function step1output(timesheetLine: any, amount: String) {
 
 
 export async function createTimesheetOutput2(
-  data: any,
-  lookupfile: any,
+  data: any[],
+  lookupTable: any[],
   filename: string,
   REBnum: string
 ) {
@@ -119,12 +99,30 @@ export async function createTimesheetOutput2(
   let REBint = parseInt(REBnum);
 
   for (let i = 0; i < data.length; i++) {
+    let employeeName=""
     if (data[i]["Nom complet"] == "") {
       break;
+    } else{
+      employeeName=data[i]["Nom complet"]
     }
 
-    output.push(expenseLine(data[i], mydate, REBint));
-    output.push(summaryLine(data[i], mydate, REBint));
+    let employee = {
+      nameval: "EMPLOYEE" + data[i]["Nom complet"] + " NOT FOUND",
+      code: "",
+      paycode: "",
+    };
+    console.log("employeeName", employeeName)
+    for (let j=0; j<lookupTable.length; j++){
+      if (lookupTable[j]["Nom complet"] == employeeName) {
+        employee["nameval"] = employeeName
+        employee["code"] = lookupTable[j]["Numeric code"]
+        employee["paycode"] = lookupTable[j]["Letter code"]
+      }
+    }
+    console.log("employee is now ", employee)
+
+    output.push(expenseLine(data[i], employee, mydate, REBint));
+    output.push(summaryLine(data[i], employee, mydate, REBint));
     //        console.log(output);
     REBint += 1;
   }
@@ -184,130 +182,4 @@ export async function createTimesheetOutput1(
     message: "Your CSV is ready!",
     href: encodeURI("data:text/csv;charset=utf-8," + "\ufeff" + csvOutput),
   };
-}
-
-function employeeLookup(employee: string) {
-  type Employees = {
-    [key: string]: {
-      nameval: string;
-      currency: string;
-      currency2: string;
-      code: string;
-      paycode: string;
-    };
-  };
-  const employees: Employees = {
-    "Luce Ahouangnimon": {
-      nameval: "AHOUANGNIMON L.",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Linda Asamoah": {
-      nameval: "ASAMOAH LINDA",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Juvenal Babona": {
-      nameval: "BABONA MIHIGO J",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-      paycode: "",
-    },
-    "Barbara Bernath": {
-      nameval: "BERNATH-THEVENO",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Benjamin Buckland": {
-      nameval: "BUCKLAND BENJAM",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Margaret Bünzli": {
-      nameval: "BUNZLI MARGARET",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Valentina Cadelo": {
-      nameval: "CADELO VALENTIN",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Emilio Congco": {
-      nameval: "CONGCO EMILIO",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Veronica Filippeschi": {
-      nameval: "FILIPPESCHI VER",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-    "Manachaya Yankittikul": {
-      nameval: "MANACHAYA YANKI",
-      currency: "EUR",
-      currency2: "EUR",
-      code: "50000",
-      paycode: "",
-    },
-    "Sara Vera Lopez": {
-      nameval: "SARA LOPEZ",
-      currency: "USD",
-      currency2: "USD",
-      code: "50000",
-      paycode: "",
-    },
-    "Nid Satjipanon": {
-      nameval: "SATJIPANON N.",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-      paycode: "",
-    },
-    "Sylvia Dias": {
-      nameval: "SYLVIA DIAS",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-      paycode: "",
-    },
-    "Cécile Trochu Grasso": {
-      nameval: "TROCHU GRASSO C",
-      currency: "CHF",
-      currency2: "",
-      code: "50000",
-      paycode: "",
-    },
-    "Jasmine Zik-Ikeorha": {
-      nameval: "ZIK-IKEORHA CHI",
-      currency: "CHF",
-      currency2: "",
-      code: "51000",
-      paycode: "",
-    },
-  };
-  const employeeMatch = employees[employee];
-  if (employeeMatch.code == "51000") {
-    employeeMatch.paycode = "ADM-UNRE01/A0900-00/ALL";
-  } else if (employeeMatch.code == "50000") {
-    employeeMatch.paycode = "ADM-UNRE01/A0905-00/ALL";
-  }
-  return employeeMatch;
 }

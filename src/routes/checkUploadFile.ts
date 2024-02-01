@@ -1,5 +1,4 @@
-export async function checkTimesheetFile(file: File) {
-    const requiredCols=["Nom complet", "Code Donateur", "Code Projects", "Nom Projects","Code Country", "Nom Coût horaire",  "Temps imputé (Heures)"];
+export async function checkFile(file: File) {
     console.log("file is ", file);
 
 
