@@ -109,20 +109,40 @@ function lastDayOfMonth(date: string) {
     let prevDate = lastDayOfMonth(data[0].Date);
     let date = prevDate;
     let total=0;
-    for (let i = 0; i < data.length; i++) {
+    let employeeName=""
 
-      let employeeName=""
+    let employee = {
+      nameval: "",
+      currency: "",
+      currency2: "",
+    };
+    for (let i = 0; i < data.length; i++) {
+      NDF = data[i]["NDF #"];
+      date = lastDayOfMonth(data[i].Date);
+
+      if (NDF != prevNDF || date != prevDate || i == data.length - 1) {
+        //summary line
+        console.log("summary line")
+        output.push(summaryLine(data[i-1], employee, ODnum, total));
+//        console.log(output);
+        ODnum += 1;
+        prevNDF = NDF;
+        prevDate = date;
+        total = 0;
+      }
+      employee = {
+        nameval: "EMPLOYEE" + data[i]["Staff"] + " NOT FOUND",
+        currency: "",
+        currency2: "",
+      };
+
       if (data[i]["Staff"] == "") {
         break;
       } else{
         employeeName=data[i]["Staff"]
       } 
   
-      let employee = {
-        nameval: "EMPLOYEE" + data[i]["Staff"] + " NOT FOUND",
-        currency: "",
-        currency2: "",
-      };
+
       console.log("employeeName", employeeName)
       for (let j=0; j<lookupTable.length; j++){
         if (lookupTable[j]["Staff"] == employeeName) {
@@ -132,19 +152,7 @@ function lastDayOfMonth(date: string) {
         }
       }
 
-      NDF = data[i]["NDF #"];
-      date = lastDayOfMonth(data[i].Date);
 
-      if (NDF != prevNDF || date != prevDate || i == data.length - 1) {
-        //summary line
-
-        output.push(summaryLine(data[i-1], employee, ODnum, total));
-//        console.log(output);
-        ODnum += 1;
-        prevNDF = NDF;
-        prevDate = date;
-        total = 0;
-      }
 
       if (i < data.length && "CHF Amount" in data[i]) {
         total += parseFloat(
@@ -160,12 +168,12 @@ function lastDayOfMonth(date: string) {
     //handle last summary line
     const lastline = data.pop()
     console.log(lastline)
-    let employee = {
+    employee = {
       nameval: "EMPLOYEE " + lastline["Staff"] + " NOT FOUND",
       currency: "",
       currency2: "",
     };
-    let employeeName=lastline["Staff"]
+    employeeName=lastline["Staff"]
     console.log("employeeName", employeeName)
     for (let j=0; j<lookupTable.length; j++){
       if (lookupTable[j]["Staff"] == employeeName) {
