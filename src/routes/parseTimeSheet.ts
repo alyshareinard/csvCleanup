@@ -4,6 +4,9 @@ function parseDateTimesheet(filename: string) {
   //  console.log("in parse date timesheet.  filename is ", filename);
   let date = filename.split("_")[0];
   //  console.log("date is ", date);
+  const datelist = date.split(".");
+  date = datelist[2]+"/"+datelist[1]+"/"+datelist[0]
+
 
   return date;
 }
@@ -38,7 +41,7 @@ function expenseLine(
     timesheetLine["Analysis code"],
     "",
     "",
-    Number(timesheetLine["Total"]) * -1
+    Number(timesheetLine["Total"])
   ];
 }
 
@@ -55,7 +58,7 @@ function summaryLine(timesheetLine: any, employeeInfo:any, mydate: string, REB: 
     employeeInfo.paycode,
     "",
     "",
-    timesheetLine["Total"]
+    timesheetLine["Total"] * -1
   ];
 }
 
@@ -91,7 +94,7 @@ export async function createTimesheetOutput2(
   filename: string,
   REBnum: string
 ) {
-  console.log("filename is ", filename);
+//  console.log("filename is ", filename);
   const mydate = parseDateTimesheet(filename);
 
 
@@ -111,7 +114,7 @@ export async function createTimesheetOutput2(
       code: "",
       paycode: "",
     };
-    console.log("employeeName", employeeName)
+//    console.log("employeeName", employeeName)
     for (let j=0; j<lookupTable.length; j++){
       if (lookupTable[j]["Nom complet"] == employeeName) {
         employee["nameval"] = employeeName
@@ -119,7 +122,6 @@ export async function createTimesheetOutput2(
         employee["paycode"] = lookupTable[j]["Letter code"]
       }
     }
-    console.log("employee is now ", employee)
 
     output.push(expenseLine(data[i], employee, mydate, REBint));
     output.push(summaryLine(data[i], employee, mydate, REBint));

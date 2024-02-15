@@ -1,6 +1,16 @@
 
 import PapaParse from "papaparse";
 
+
+function to3Digit(num: number) {
+    if (num < 10) {
+      return "00" + num;
+    } else if (num < 100) {
+      return "0" + num;
+    } else {
+      return num;
+    }
+  }
 function lastDayOfMonth(date: string) {
     let mydate = date.split("/");
     let lastdate = new Date(Number(mydate[2]), Number(mydate[1]), 0);
@@ -21,10 +31,10 @@ function lastDayOfMonth(date: string) {
     return Date.parse(mydate[2] + "/" + mydate[1] + "/" + mydate[0]);
   }
   function expenseLine(expense:any, ODnum:number) {
-    console.log("ODnum...", ODnum)
+    //console.log("ODnum...", ODnum)
     return [
       lastDayOfMonth(expense.Date),
-      "OD-" + ODnum,
+      "OD-" + to3Digit(ODnum),
       expense["Expense Account"],
       "",
       "",
@@ -42,7 +52,7 @@ function lastDayOfMonth(date: string) {
     if ((supplier == "" || supplier == undefined)) {
       return [
         lastDayOfMonth(prevExpense.Date),
-        "OD-" + ODnum,
+        "OD-" + to3Digit(ODnum),
         "20000",
         "UNKNOWN NAME",
         "UNKNOWN CURRENCY1",
@@ -55,12 +65,12 @@ function lastDayOfMonth(date: string) {
         (-1 * Math.round(total * 100)) / 100,
       ];
     } else {
-      console.log("supplier: ", supplier)
-      console.log("supplier...", supplier.nameval)
-      console.log("supplier...nameval ", supplier['nameval'])
+      //console.log("supplier: ", supplier)
+      //console.log("supplier...", supplier.nameval)
+      //console.log("supplier...nameval ", supplier['nameval'])
       return [
         lastDayOfMonth(prevExpense.Date),
-        "OD-" + ODnum,
+        "OD-" + to3Digit(ODnum),
         "20000",
         supplier.nameval,
         supplier.currency,
@@ -88,7 +98,7 @@ function lastDayOfMonth(date: string) {
 
     async function testDescription(i: number) {
       const description = data[i]["DESC 2"];
-      console.log(description.length);
+      //console.log(description.length);
       if (description.length > 30) {
         const longDescription = true;
         const desc1 = description.slice(0, 30);
@@ -122,7 +132,7 @@ function lastDayOfMonth(date: string) {
 
       if (NDF != prevNDF || date != prevDate || i == data.length - 1) {
         //summary line
-        console.log("summary line")
+        //console.log("summary line")
         output.push(summaryLine(data[i-1], employee, ODnum, total));
 //        console.log(output);
         ODnum += 1;
@@ -143,9 +153,10 @@ function lastDayOfMonth(date: string) {
       } 
   
 
-      console.log("employeeName", employeeName)
+//      console.log("employeeName", employeeName)
       for (let j=0; j<lookupTable.length; j++){
         if (lookupTable[j]["Staff"] == employeeName) {
+//          console.log("Lookup table line", lookupTable[j])
           employee["nameval"] = lookupTable[j]["Nameval"]
           employee["currency"] = lookupTable[j]["Currency"]
           employee["currency2"] = lookupTable[j]["Currency2"]
@@ -167,14 +178,14 @@ function lastDayOfMonth(date: string) {
     }
     //handle last summary line
     const lastline = data.pop()
-    console.log(lastline)
+    //console.log(lastline)
     employee = {
       nameval: "EMPLOYEE " + lastline["Staff"] + " NOT FOUND",
       currency: "",
       currency2: "",
     };
     employeeName=lastline["Staff"]
-    console.log("employeeName", employeeName)
+    //console.log("employeeName", employeeName)
     for (let j=0; j<lookupTable.length; j++){
       if (lookupTable[j]["Staff"] == employeeName) {
         employee["nameval"] = lookupTable[j]["Nameval"]
