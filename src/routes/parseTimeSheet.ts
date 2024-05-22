@@ -69,13 +69,13 @@ function step1output(timesheetLine: any, amount: String) {
   return [  
     timesheetLine["Nom complet"],
     timesheetLine["Code Donateur"],
-    timesheetLine["Code Projects"],
-    timesheetLine["Nom Projects"],
+    timesheetLine["Code Area"],
+    timesheetLine["Nom Area"],
     timesheetLine["Code Country"],
-    timesheetLine["Code Donateur"] +
-      timesheetLine["Code Projects"] +
-      "/" +
-      timesheetLine["Code Country"],
+    timesheetLine["Code Donateur"] + '/AC000-00/' +
+//      timesheetLine["Code Projects"] +
+//      "/" +
+      timesheetLine["Code Country"] + timesheetLine["Code Area"],
     timesheetLine["Nom Coût horaire"],
     timesheetLine["Temps imputé (Heures)"],
     amount,
@@ -94,7 +94,6 @@ export async function createTimesheetOutput2(
   filename: string,
   REBnum: string
 ) {
-//  console.log("filename is ", filename);
   const mydate = parseDateTimesheet(filename);
 
 
@@ -176,7 +175,7 @@ export async function createTimesheetOutput1(
   //  console.log("output is ", output);
   const csvOutput = PapaParse.unparse({
     data: output,
-    fields: ["Nom complet", "Code Donateur", "Code Projects", "Nom Projects", "Code Country",	"Analysis code", "Nom Coût horaire", "Temps imputé (Heures)", "Total", "Description"]		
+    fields: ["Nom complet", "Code Donateur", "Code Area", "Nom Area", "Code Country",	"Analysis code", "Nom Coût horaire", "Temps imputé (Heures)", "Total", "Description"]		
   });
   //  console.log("csvOutput is ", csvOutput);
   return {

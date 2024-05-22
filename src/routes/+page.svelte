@@ -47,8 +47,8 @@
   const requiredTimesheetCols1 = [
     "Nom complet",
     "Code Donateur",
-    "Code Projects",
-    "Nom Projects",
+    "Code Area",
+    "Nom Area",
     "Code Country",
     "Nom Coût horaire",
     "Temps imputé (Heures)",
@@ -57,8 +57,8 @@
   const requiredTimesheetCols2 = [
     "Nom complet",
     "Code Donateur",
-    "Code Projects",
-    "Nom Projects",
+    "Code Area",
+    "Nom Area",
     "Code Country",
     "Analysis code",
     "Nom Coût horaire",
@@ -75,7 +75,8 @@
     "DESC 1",
     "DESC 2",
     "Donors",
-    "Project",
+    "Area",
+    "Activity Number",
     "Country",
     "Local currency",
     "Local amount",
@@ -83,9 +84,9 @@
   ];
 
   function pullDateTimesheet1(filename: string) {
-    //  console.log("in parse date timesheet.  filename is ", filename);
+      console.log("in parse date timesheet.  filename is ", filename);
     let date = filename.split("_")[5];
-    //  console.log("date is ", date);
+      console.log("date is ", date);
     let mydate = date.split(".");
     return mydate[2] + "." + mydate[1] + "." + mydate[0];
   }
@@ -160,13 +161,19 @@
     console.log("file", file);
     const response = await checkFile(file);
     timesheetErrorMessage = response.errorMessage;
-    timesheetMidName = pullDateTimesheet1(file.name) + "_timesheetMidpoint.csv";
 
+    try {
+      timesheetMidName = pullDateTimesheet1(file.name) + "_timesheetMidpoint.csv";
+    } catch (error) {
+      console.log(error)
+      timesheetErrorMessage = "Unexpected filename format. Should be of the form: rapport_activites_-_mensuel_01.04.2024_30.04.2024_rawdata.csv";
+    }
+   
     const timesheetLookupTable: string[] = [];
     const fileExtension = response.fileExtension;
     console.log("fileExtension", fileExtension);
 
-    if (fileExtension.includes("csv")) {
+    if (fileExtension.includes("csv") && timesheetErrorMessage == "") {
       const paparesponse = await runPapaParse(
         file,
         timesheetLookupTable,
