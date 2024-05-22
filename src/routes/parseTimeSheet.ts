@@ -75,7 +75,7 @@ function step1output(timesheetLine: any, amount: String) {
     timesheetLine["Code Donateur"] + '/AC000-00/' +
 //      timesheetLine["Code Projects"] +
 //      "/" +
-      timesheetLine["Code Country"] + timesheetLine["Code Area"],
+      timesheetLine["Code Country"] + " / " + timesheetLine["Code Area"],
     timesheetLine["Nom Coût horaire"],
     timesheetLine["Temps imputé (Heures)"],
     amount,
@@ -115,7 +115,8 @@ export async function createTimesheetOutput2(
     };
 //    console.log("employeeName", employeeName)
     for (let j=0; j<lookupTable.length; j++){
-      if (lookupTable[j]["Nom complet"] == employeeName) {
+
+      if (lookupTable[j]["Nom complet"].normalize("NFD").replace(/[\u0300-\u036f]/g, "") == employeeName.normalize("NFD").replace(/[\u0300-\u036f]/g, "")) {
         employee["nameval"] = employeeName
         employee["code"] = lookupTable[j]["Numeric code"]
         employee["paycode"] = lookupTable[j]["Letter code"]
