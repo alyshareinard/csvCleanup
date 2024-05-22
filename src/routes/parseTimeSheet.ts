@@ -75,7 +75,7 @@ function step1output(timesheetLine: any, amount: String) {
     timesheetLine["Code Donateur"] + '/AC000-00/' +
 //      timesheetLine["Code Projects"] +
 //      "/" +
-      timesheetLine["Code Country"] + " / " + timesheetLine["Code Area"],
+      timesheetLine["Code Country"] + "/" + timesheetLine["Code Area"],
     timesheetLine["Nom Coût horaire"],
     timesheetLine["Temps imputé (Heures)"],
     amount,
